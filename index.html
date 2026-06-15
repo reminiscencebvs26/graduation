@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Baskervville&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <style>
+            body {
+                background-color: black;
+                margin:0;
+                padding:0;
+                height:100vh;
+                overflow:hidden;
+            }
+            .intronavbtn{
+                background:transparent;
+                border:none;
+                color:white;
+                font-size:1.75vh;
+                font-family:baskervville;
+                cursor:pointer;
+                width:15vh;
+                height:6vh;
+                outline:none;
+                border-radius:10px;
+                margin-left:1.5vh;
+                margin-right:1.5vh;
+                opacity:0.55;
+                transition-duration:0.5s;
+            }
+            .intronavbtn:hover{
+                transition-duration:0.5s;
+                font-size:2vh;
+            }
+            .intronav{
+                color:white;
+                position:fixed;
+                z-index:1000;
+                font-size:3.25vh;
+                font-family:baskervville;
+                width:100%;
+                margin-top:3vh;
+                height:8vh;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+            }
+            .mainbody{
+                width:100%;
+                height:100vh;
+                display:flex;
+                flex-direction:row;
+                justify-content:center;
+                align-items:center;
+            }
+            .sidebar{
+                width:17.5%;
+                height:100%;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                z-index: 10;
+                padding-top: 8vh;
+            }
+
+            /* Central Body Setup with Boundary Controls */
+            .centralbody{
+                width: 82.5%;
+                height: 100%;
+                margin-right:10vh;
+                display: flex;
+                flex-direction: column; 
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                overflow: hidden; 
+            }
+
+            .carousel-stage-container {
+                width: 100%;
+                height: 55%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                perspective: 200vw; 
+                position: relative;
+            }
+            .slider-container {
+                margin-top: 5vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 40%; 
+                z-index: 10;
+            }
+            .slider-label {
+                font-family: outfit;
+                font-size: 1.4vh;
+                letter-spacing: 1px;
+                color: #5A5A5A;
+                text-transform: uppercase;
+                font-weight: 500;
+            }
+            .carousel-slider {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 4px;
+                background: #2C2C2C;
+                border-radius: 2px;
+                outline: none;
+                cursor: pointer;
+            }
+            .carousel-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #45827C;
+                cursor: pointer;
+                transition: transform 0.1s ease;
+            }
+            .carousel-slider::-webkit-slider-thumb:hover {
+                transform: scale(1.25);
+            }
+
+            .highlight{
+                background: #2C2C2C;
+                width:11vh;
+                height:11vh;
+                border-radius:100%;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                transition: background 0.3s ease;
+            }
+            .highlight.active{
+                background: linear-gradient(to bottom, #45827C 0%, black 100%);
+            }
+            .space{
+                background:black;
+                width:85%;
+                height:85%;
+                border-radius:100%;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+            }
+            .thumb {
+                object-fit:cover;
+                width:85%;
+                height:85%;
+                border-radius:100%;
+                cursor:pointer;
+                filter:saturate(0);
+                transition: filter 0.5s ease;
+            }
+            .thumb:hover,
+            .highlight.active .thumb {
+                filter: saturate(1);
+            }
+            .hightxt{
+                color:#5A5A5A;
+                font-family:outfit;
+                font-size:1.5vh;
+                margin-top: 0.5vh;
+                transition: color 0.3s ease;
+            }
+            .hightxt.active{
+                color:white;
+            }
+
+            .carousel{
+                width: 25vw;   
+                height: 15vh;  
+                position: relative;
+                transform-style: preserve-3d;
+                transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .item-container {
+                position: absolute;
+                width: 100%;   
+                height: 100%;  
+                left: 0;
+                top: 0;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                transform-style: preserve-3d;
+            }
+            
+            .item-img {
+                width: 75%;
+                object-fit: cover;       
+                border-radius: 3vh;
+                cursor:pointer;
+                filter:saturate(0);
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+                transition: filter 0.5s ease, width 0.5s ease, height 0.5s ease, box-shadow 0.5s ease;
+            }
+            .item-img:hover{
+                filter:saturate(1);
+                width:80%;
+                box-shadow: 0 0 40px rgba(87, 87, 87, 0.8);
+            }
+
+            /* Outdoors Mode Specific Configurations */
+            .carousel.outdoor-mode {
+                transform-style: preserve-3d;
+            }
+            .carousel.outdoor-mode .item-img {
+                width: 95%;
+            }
+            .carousel.outdoor-mode .item-img:hover {
+                width: 100%;
+            }
+
+            /* Classrooms Mode Specific Configurations */
+            .carousel.classroom-mode {
+                transform-style: preserve-3d;
+            }
+            .carousel.classroom-mode .item-img {
+                width: 60%; 
+                box-shadow: 0 0 35px rgba(255, 255, 255, 0.1); 
+            }
+            .carousel.classroom-mode .item-img:hover {
+                width: 70%; 
+                box-shadow: 0 0 40px rgba(69, 130, 124, 0.6);
+            }
+
+            /* Graduation Mode Specific Configurations */
+            .carousel.graduation-mode {
+                transform-style: preserve-3d;
+            }
+            .carousel.graduation-mode .item-img {
+                width: 75%;
+                box-shadow: 0 0 35px rgba(255, 255, 255, 0.15);
+            }
+            .carousel.graduation-mode .item-img:hover {
+                width: 82%;
+                box-shadow: 0 0 45px rgba(69, 130, 124, 0.7);
+            }
+
+            .filterleft{
+                position:absolute;
+                top:0;
+                left:-2%;
+                width:40%;
+                height:115%;
+                background: linear-gradient(to right, #000000 0%, transparent 100%);
+                z-index:2;
+                pointer-events: none;
+            }
+            .filterright{
+                position:absolute;
+                top: 0;
+                right:-2%;
+                width:25%;
+                height:115%;
+                background: linear-gradient(to left, #000000 0%, transparent 100%);
+                z-index:2;
+                pointer-events: none;
+            }
+            .classic-btn{
+                width:15vh;
+                height:5vh;
+                margin:2vh;
+                font-family:bebas neue;
+                margin-top:10vh;
+                color:rgb(148, 148, 148);
+                font-size:2.25vh;
+                background:none;
+                border:0.2vh solid rgb(148, 148, 148);
+                cursor:pointer;
+                border-radius:1vh;
+                transition-duration:0.5s;
+            }
+            .classic-btn:hover, .classic-btn.active-tab {
+                color:black;
+                background:white;
+                border-radius:3vh;
+                border:0.2vh solid white;
+                font-size:2.5vh;
+                transition-duration:0.5s;
+            }
+
+            .embedded-video {
+                width: auto;
+                height: 100%;
+                max-width: 90%;
+                border-radius: 2vh;
+                box-shadow: 0 0 50px rgba(69, 130, 124, 0.3);
+                outline: none;
+                z-index: 5;
+                margin-top: 5vh;
+                filter: saturate(0);
+                transition: filter 0.5s ease;
+            }
+            
+            .embedded-video:hover {
+                filter: saturate(1);
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="intronav">
+            <button class="intronavbtn" onclick="Home()">HOME</button>
+            <div style="margin:40px;font-size:2.3vh;z-index:5;opacity:0.8;letter-spacing:1px;">REMINISCENCE</div>
+            <button class="intronavbtn" onclick="Goa()">GOA</button>
+        </nav>
+        <div class="mainbody"> 
+            <div class="sidebar">
+                
+                <div id="cat-senior" class="highlight active" onclick="setActiveHighlight(this, 'senior')">
+                    <div class="space">
+                        <img src="./Senior walk through/WALKOUT/IMG_7168.jpg" class="thumb">
+                    </div>
+                </div>
+                <div class="hightxt active">Senior-Walk</div>
+
+                <br><br>
+                <div id="cat-outdoors" class="highlight" onclick="setActiveHighlight(this, 'outdoors')">
+                    <div class="space">
+                        <img src="./Senior walk through/OUTDOORS/IMG_7314.jpg" class="thumb">
+                    </div>
+                </div>
+                <div class="hightxt">Outdoors</div>
+
+                <br><br>
+                <div id="cat-classroom" class="highlight" onclick="setActiveHighlight(this, 'classroom')">
+                    <div class="space">
+                        <img src="./Senior walk through/GRAD/Image_20240822_131145_895.jpeg" class="thumb">
+                    </div>
+                </div>
+                <div class="hightxt">Classroom</div>
+
+                <br><br>
+                <div id="cat-graduation" class="highlight" onclick="setActiveHighlight(this, 'graduation')">
+                    <div class="space">
+                        <img src="./Senior walk through/GRAD/IMG_20260209_160401.jpg.webp" class="thumb">
+                    </div>
+                </div>
+                <div class="hightxt">Graduation</div>
+
+            </div>
+            
+            <div class="centralbody">
+                <div id="mediaTabs" style="display:flex;flex-direction:row;justify-content:center;align-items:center;">
+                    <button id="btnPhotos" class="classic-btn active-tab" onclick="switchMode('photos')">PHOTOS</button>
+                    <button id="btnVideo" class="classic-btn" onclick="switchMode('video')">VIDEO</button>
+                </div>
+                
+                <div class="carousel-stage-container" id="stageContainer">
+                    <div class="filterleft" id="fLeft"></div>
+                    <div class="carousel" id="carouselStage"></div>
+                    <div class="filterright" id="fRight"></div>
+                </div>
+
+                <div class="slider-container" id="sliderWrapper">
+                    <span class="slider-label">SCROLL THE SLIDER</span>
+                    <input type="range" id="rotationSlider" class="carousel-slider" min="0" max="360" value="0">
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Navigation Handlers
+            function Home() {
+                window.location.href = "https://reminiscencebvs26.github.io/reminiscence-batch26/";
+            }
+
+            function Goa() {
+                window.location.href = "https://reminiscencebvs26.github.io/goa/";
+            }
+
+            const photoData = {
+                senior: [
+                    "7165.jpg", "7166.jpg", "7167.jpg", "7168.jpg", "7169.jpg", 
+                    "7170.jpg", "7171.jpg", "7172.jpg", "7173.jpg", "7174.jpg", 
+                    "7175.jpg", "7176.jpg", "7177.jpg", "7178.jpg", "7179.jpg", 
+                    "7180.jpg", "7181.jpg", "7182.jpg", "7183.jpg", "7184.jpg", "7185.jpg"
+                ].map(img => `./Senior walk through/WALKOUT/IMG_${img}`),
+
+                outdoors: [
+                    "7314.JPG", "7319.JPG", "7320.JPG", "7321.JPG"
+                ].map(img => `./Senior walk through/OUTDOORS/IMG_${img}`),
+
+                classroom: [
+                    "04-Dec-2017 at 1-38 PM.JPG",
+                    "18-Aug-2017, 3-16 PM.png",
+                    "31692ce9-3207-4474-a0ad-95ef50dd9058.JPG",
+                    "20250425_141542.jpg",
+                    "623815658_1705596447079196_3279684826882195582_n.png",
+                    "DSC_0089.jpeg",
+                    "hhee.png",
+                    "Image_20240822_35306_360.jpg",
+                    "Image_20240822_131145_895.jpeg",
+                    "Image_20240822_131146_245.jpeg",
+                    "Image_20241002_193321_216.jpeg",
+                    "Image_20241029_140638_195.jpeg",
+                    "Image_20241029_140639_195.jpeg",
+                    "Image_20241029_140657_041.jpeg",
+                    "Image_20241207_145527_106.jpeg",
+                    "Image_20241207_145527_446.jpeg",
+                    "IMG_0389.jpg",
+                    "IMG_0456.jpeg",
+                    "IMG_1107.jpg",
+                    "IMG_1357.jpeg",
+                    "IMG_1472.jpeg",
+                    "IMG_2567.PNG",
+                    "IMG_2570.PNG",
+                    "IMG_2709.jpeg",
+                    "IMG_2755.jpeg",
+                    "IMG_4787.JPG",
+                    "IMG_4790.JPG",
+                    "IMG_4794.JPG",
+                    "IMG_5348.jpg",
+                    "Photo on 23-11-24 at 10.39 AM.jpg",
+                    "something2.jpg",
+                    "Photo on 29-10-24 at 3.03 PM.jpg",
+                    "something.JPEG",
+                    "WhatsApp Image 2026-01-30 at 22.09.30.jpeg",
+                    "WhatsApp Image 2026-01-30 at 22.20.52.jpeg",
+                    "WhatsApp Image 2026-01-31 at 09.52.50.jpeg",
+                    "WIN_20250315_10_42_48_Pro.jpg"
+                ].map(img => `./Senior Walk through/GRAD/${img}`),
+
+                graduation: [
+                    "image-2.png",
+                    "image-3.png",
+                    "image-4.png",
+                    "image-5.png",
+                    "image-6.png",
+                    "image-7.png",
+                    "image-8.png",
+                    "image-11.png",
+                    "image-12.png",
+                    "image-13.png",
+                    "image.png"
+                ].map(img => `./Senior Walk through/GRAD/grad/${img}`)
+            };
+
+            const carouselStage = document.getElementById('carouselStage');
+            const rotationSlider = document.getElementById('rotationSlider');
+            const stageContainer = document.getElementById('stageContainer');
+            const sliderWrapper = document.getElementById('sliderWrapper');
+            const btnPhotos = document.getElementById('btnPhotos');
+            const btnVideo = document.getElementById('btnVideo');
+            const mediaTabs = document.getElementById('mediaTabs');
+            const fLeft = document.getElementById('fLeft');
+            const fRight = document.getElementById('fRight');
+
+            function buildDynamicCarousel(category) {
+                const images = photoData[category] || photoData['senior'];
+                const totalItems = images.length;
+                const angleIncrement = 360 / totalItems; 
+                
+                let translateDepth = '80vw';
+                let currentHeight = '165%'; 
+
+                carouselStage.classList.remove('outdoor-mode', 'classroom-mode', 'graduation-mode');
+
+                if (category === 'senior') {
+                    currentHeight = '165%';
+                    translateDepth = '80vw';
+                } else if (category === 'outdoors') {
+                    currentHeight = '225%';
+                    translateDepth = '30vw';
+                    carouselStage.classList.add('outdoor-mode');
+                } else if (category === 'classroom') {
+                    currentHeight = '110%';
+                    translateDepth = '110vw'; 
+                    carouselStage.classList.add('classroom-mode'); 
+                } else if (category === 'graduation') {
+                    currentHeight = '140%';
+                    translateDepth = '110vw'; 
+                    carouselStage.classList.add('graduation-mode'); 
+                }
+
+                carouselStage.innerHTML = '';
+
+                images.forEach((srcUrl, index) => {
+                    const container = document.createElement('div');
+                    container.className = 'item-container';
+                    
+                    const rotationY = index * angleIncrement;
+                    container.style.transform = `rotateY(${rotationY}deg) translateZ(${translateDepth})`;
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = srcUrl;
+                    imgElement.className = 'item-img';
+                    imgElement.style.height = currentHeight; 
+
+                    container.appendChild(imgElement);
+                    carouselStage.appendChild(container);
+                });
+            }
+
+            function setActiveHighlight(element, category) {
+                document.querySelectorAll('.highlight').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.hightxt').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+                element.nextElementSibling.classList.add('active');
+
+                switchMode('photos'); 
+
+                if (category === 'senior') {
+                    mediaTabs.style.visibility = 'visible';
+                } else {
+                    mediaTabs.style.visibility = 'hidden';
+                }
+
+                buildDynamicCarousel(category);
+                
+                rotationSlider.value = 0;
+                carouselStage.style.transform = `rotateY(0deg)`;
+            }
+
+            rotationSlider.addEventListener('input', (event) => {
+                const degrees = event.target.value;
+                carouselStage.style.transform = `rotateY(${-degrees}deg)`;
+            });
+
+            function switchMode(mode) {
+                if (mode === 'video') {
+                    btnPhotos.classList.remove('active-tab');
+                    btnVideo.classList.add('active-tab');
+
+                    carouselStage.style.display = 'none';
+                    sliderWrapper.style.display = 'none';
+                    fLeft.style.display = 'none';
+                    fRight.style.display = 'none';
+
+                    if (!document.getElementById('mainVideoPlayer')) {
+                        const videoElement = document.createElement('video');
+                        videoElement.id = 'mainVideoPlayer';
+                        videoElement.className = 'embedded-video';
+                        videoElement.src = './Senior walk through/Senior Walk.mp4';
+                        videoElement.controls = true;
+                        videoElement.autoplay = true;
+                        stageContainer.appendChild(videoElement);
+                    }
+                } else if (mode === 'photos') {
+                    btnVideo.classList.remove('active-tab');
+                    btnPhotos.classList.add('active-tab');
+
+                    const videoPlayer = document.getElementById('mainVideoPlayer');
+                    if (videoPlayer) {
+                        videoPlayer.remove();
+                    }
+
+                    carouselStage.style.display = 'block';
+                    sliderWrapper.style.display = 'flex';
+                    fLeft.style.display = 'block';
+                    fRight.style.display = 'block';
+                }
+            }
+
+            window.onload = () => {
+                buildDynamicCarousel('senior');
+            };
+        </script>
+    </body>
+</html>
