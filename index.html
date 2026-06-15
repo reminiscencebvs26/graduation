@@ -317,7 +317,7 @@
                 
                 <div id="cat-senior" class="highlight active" onclick="setActiveHighlight(this, 'senior')">
                     <div class="space">
-                        <img src="./Senior walk through/WALKOUT/IMG_7168.jpg" class="thumb">
+                        <img src="./seniority/WALKOUT/IMG_7168.jpg" class="thumb">
                     </div>
                 </div>
                 <div class="hightxt active">Senior-Walk</div>
@@ -325,7 +325,7 @@
                 <br><br>
                 <div id="cat-outdoors" class="highlight" onclick="setActiveHighlight(this, 'outdoors')">
                     <div class="space">
-                        <img src="./Senior walk through/OUTDOORS/IMG_7314.jpg" class="thumb">
+                        <img src="./seniority/OUTDOORS/IMG_7314.jpg" class="thumb">
                     </div>
                 </div>
                 <div class="hightxt">Outdoors</div>
@@ -333,7 +333,7 @@
                 <br><br>
                 <div id="cat-classroom" class="highlight" onclick="setActiveHighlight(this, 'classroom')">
                     <div class="space">
-                        <img src="./Senior walk through/GRAD/Image_20240822_131145_895.jpeg" class="thumb">
+                        <img src="./seniority/GRAD/Image_20240822_131145_895.jpeg" class="thumb">
                     </div>
                 </div>
                 <div class="hightxt">Classroom</div>
@@ -341,7 +341,7 @@
                 <br><br>
                 <div id="cat-graduation" class="highlight" onclick="setActiveHighlight(this, 'graduation')">
                     <div class="space">
-                        <img src="./Senior walk through/GRAD/IMG_20260209_160401.jpg.webp" class="thumb">
+                        <img src="./seniority/GRAD/IMG_20260209_160401.jpg.webp" class="thumb">
                     </div>
                 </div>
                 <div class="hightxt">Graduation</div>
@@ -383,14 +383,14 @@
                     "7170.jpg", "7171.jpg", "7172.jpg", "7173.jpg", "7174.jpg", 
                     "7175.jpg", "7176.jpg", "7177.jpg", "7178.jpg", "7179.jpg", 
                     "7180.jpg", "7181.jpg", "7182.jpg", "7183.jpg", "7184.jpg", "7185.jpg"
-                ].map(img => `./Senior walk through/WALKOUT/IMG_${img}`),
+                ].map(img => `./seniority/WALKOUT/IMG_${img}`),
 
                 outdoors: [
                     "7314.JPG", "7319.JPG", "7320.JPG", "7321.JPG"
-                ].map(img => `./Senior walk through/OUTDOORS/IMG_${img}`),
+                ].map(img => `./seniority/OUTDOORS/IMG_${img}`),
 
                 classroom: [
-                    "04-Dec-2017 at 1-38 PM.JPG",
+                    "04-Dec-2017 at 1-38 PM.jpg", // Changed to lowercase .jpg
                     "18-Aug-2017, 3-16 PM.png",
                     "31692ce9-3207-4474-a0ad-95ef50dd9058.JPG",
                     "20250425_141542.jpg",
@@ -411,12 +411,12 @@
                     "IMG_1107.jpg",
                     "IMG_1357.jpeg",
                     "IMG_1472.jpeg",
-                    "IMG_2567.PNG",
-                    "IMG_2570.PNG",
+                    "IMG_2567.png", // Changed to lowercase .png
+                    "IMG_2570.png", // Changed to lowercase .png
                     "IMG_2709.jpeg",
                     "IMG_2755.jpeg",
-                    "IMG_4787.JPG",
-                    "IMG_4790.JPG",
+                    "IMG_4787.jpg", // Changed to lowercase .jpg
+                    "IMG_4790.jpg", // Changed to lowercase .jpg
                     "IMG_4794.JPG",
                     "IMG_5348.jpg",
                     "Photo on 23-11-24 at 10.39 AM.jpg",
@@ -427,7 +427,7 @@
                     "WhatsApp Image 2026-01-30 at 22.20.52.jpeg",
                     "WhatsApp Image 2026-01-31 at 09.52.50.jpeg",
                     "WIN_20250315_10_42_48_Pro.jpg"
-                ].map(img => `./Senior Walk through/GRAD/${img}`),
+                ].map(img => `./seniority/GRAD/${img}`),
 
                 graduation: [
                     "image-2.png",
@@ -441,7 +441,7 @@
                     "image-12.png",
                     "image-13.png",
                     "image.png"
-                ].map(img => `./Senior Walk through/GRAD/grad/${img}`)
+                ].map(img => `./seniority/GRAD/grad/${img}`)
             };
 
             const carouselStage = document.getElementById('carouselStage');
@@ -539,7 +539,7 @@
                         const videoElement = document.createElement('video');
                         videoElement.id = 'mainVideoPlayer';
                         videoElement.className = 'embedded-video';
-                        videoElement.src = './Senior walk through/Senior Walk.mp4';
+                        videoElement.src = './seniority/Senior Walk.mp4';
                         videoElement.controls = true;
                         videoElement.autoplay = true;
                         stageContainer.appendChild(videoElement);
